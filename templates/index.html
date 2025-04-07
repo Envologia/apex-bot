@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Apex Project Bot Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>The Apex Project</h1>
+                <div class="tagline">Secret Society Bot</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="status-card">
+                <h2>Bot Status</h2>
+                <div class="status-indicator {{ 'active' if bot_running else 'inactive' }}">
+                    <span class="status-dot"></span>
+                    <span class="status-text">{{ 'Online' if bot_running else 'Offline' }}</span>
+                </div>
+                
+                <div class="bot-info">
+                    <div class="info-row">
+                        <span class="label">Bot Username:</span>
+                        <span class="value">@{{ bot_username }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Required Channel:</span>
+                        <span class="value">{{ required_channel }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Join Timeout:</span>
+                        <span class="value">{{ join_timeout }} seconds</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="start-bot" class="btn primary" {{ 'disabled' if bot_running else '' }}>
+                        {{ 'Bot Running' if bot_running else 'Start Bot' }}
+                    </button>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h2>About</h2>
+                <p>The Apex Project is a sophisticated Telegram bot designed for exclusive group management with a dark secret society theme.</p>
+                <ul>
+                    <li>AI-powered conversations</li>
+                    <li>Channel subscription enforcement</li>
+                    <li>Advanced group management features</li>
+                    <li>5-minute waiting period for new join requests</li>
+                </ul>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 The Apex Project</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('start-bot').addEventListener('click', function() {
+            if (this.hasAttribute('disabled')) return;
+            
+            fetch('/start_bot', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to start bot. Please check the logs.');
+                }
+            })
+            .catch(error => {
+                console.error('Error starting bot:', error);
+                alert('Failed to start bot. Please check the logs.');
+            });
+        });
+        
+        // Auto-refresh status every 30 seconds
+        setInterval(function() {
+            fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                const statusIndicator = document.querySelector('.status-indicator');
+                const statusText = document.querySelector('.status-text');
+                const startButton = document.getElementById('start-bot');
+                
+                if (data.running) {
+                    statusIndicator.className = 'status-indicator active';
+                    statusText.textContent = 'Online';
+                    startButton.textContent = 'Bot Running';
+                    startButton.setAttribute('disabled', true);
+                } else {
+                    statusIndicator.className = 'status-indicator inactive';
+                    statusText.textContent = 'Offline';
+                    startButton.textContent = 'Start Bot';
+                    startButton.removeAttribute('disabled');
+                }
+            });
+        }, 30000);
+    </script>
+</body>
+</html>
