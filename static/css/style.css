@@ -1,0 +1,186 @@
+/* Global Styles */
+:root {
+    --primary-color: #1e1e24;
+    --secondary-color: #3c1053;
+    --accent-color: #ff4655;
+    --text-color: #e0e0e0;
+    --dark-bg: #121212;
+    --card-bg: #1e1e24;
+    --status-active: #4CAF50;
+    --status-inactive: #F44336;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header */
+header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.logo h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Main Content */
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.status-card, .info-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 0.7rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+/* Status Indicator */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+}
+
+.status-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.status-indicator.active .status-dot {
+    background-color: var(--status-active);
+    box-shadow: 0 0 10px var(--status-active);
+}
+
+.status-indicator.inactive .status-dot {
+    background-color: var(--status-inactive);
+    box-shadow: 0 0 10px var(--status-inactive);
+}
+
+/* Bot Info */
+.bot-info {
+    margin-bottom: 2rem;
+}
+
+.info-row {
+    display: flex;
+    margin-bottom: 0.8rem;
+}
+
+.label {
+    font-weight: bold;
+    width: 150px;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #d13545;
+}
+
+.btn[disabled] {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+/* Info Card */
+.info-card p {
+    margin-bottom: 1.5rem;
+}
+
+.info-card ul {
+    list-style-position: inside;
+    margin-left: 1rem;
+}
+
+.info-card li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.info-card li::before {
+    content: '•';
+    color: var(--accent-color);
+    position: absolute;
+    left: -1rem;
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
