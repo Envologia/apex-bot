@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: apex-bot
+    env: python
+    buildCommand: pip install -r deployment_requirements.txt
+    startCommand: gunicorn main:app --bind 0.0.0.0:$PORT --reuse-port --threads 2 --workers 2
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+    databases:
+      - name: apex-bot-db
+        plan: free
